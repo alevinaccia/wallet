@@ -1,0 +1,25 @@
+.navbar{
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid gray;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+h1{
+    margin-left: 10px;
+    font-size: 25px;
+}
+ul{
+    list-style-type: none;
+    display: flex;
+}
+li{
+    transition-duration: 500ms;
+    margin-left: 30px;
+    font-size: 20px;
+    border-bottom: 2px solid white;
+}
+li:hover{
+    transition-duration: 500ms;
+    border-bottom-color: green;
+    cursor: pointer;
+}

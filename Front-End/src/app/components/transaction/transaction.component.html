@@ -1,0 +1,7 @@
+<div class="transaction-wrapper">
+    <span>€{{ transaction.value }}</span>
+    <span></span>
+    <span>{{ transaction.msg }}
+        <button (click)="this.deleteTransaction(transaction)"> Del </button>
+    </span>
+</div>

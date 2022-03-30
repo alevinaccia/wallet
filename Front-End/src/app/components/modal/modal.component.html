@@ -1,0 +1,6 @@
+<div ngClass="modal" #modal>
+    <h1 class="modal-close-button disable-select" (click)="toggleModal()">&times;</h1>
+    <h2>{{this.title}}</h2>
+    <ng-content></ng-content>
+</div>
+<div class="modal-overlay" #overlay></div>

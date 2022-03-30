@@ -1,0 +1,31 @@
+<section class="container">
+    <app-transaction *ngFor="let transaction of transactions" [transaction]="transaction"></app-transaction>
+    <button class="transaction-button-center" (click)="toggleTransactionModal()" #addBTN>Add Transaction</button>
+</section>
+
+<app-modal #myname title="Add transaction">
+    <form class="transaction-form" (ngSubmit)="addTransaction()">
+        <div class="type-selector" #transactionType>
+            <a (click)="updateSelection($event)" class="selected">Income</a>
+            <a (click)="updateSelection($event)">Expense</a>
+            <a (click)="updateSelection($event)">Transfer</a>
+        </div>
+        <div class="income">
+            <section>
+                <input type="number" placeholder="Value" name="value" [(ngModel)]="value">
+                <select name="account" [(ngModel)]="account">
+                    <option [ngValue]="null" disabled>Account</option>
+                    <option *ngFor="let account of accounts">{{ account.name }}</option>
+                    <!--fetch all account-->
+                </select>
+            </section>
+            <div>
+                <input type="text" placeholder="Message" name="message" [(ngModel)]="message">
+            </div>
+
+            <input type="submit" value="Add Transaction!" class="add-transaction-btn">
+        </div>
+        <div class="expense"></div>
+        <div class="transfer"></div>
+    </form>
+</app-modal>

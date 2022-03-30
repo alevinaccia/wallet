@@ -1,0 +1,13 @@
+.box-container{
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 40px;
+}
+
+.box-container > * {
+    flex: 1;
+    width: 300px;
+    height: 500px;
+    border: 1px solid black;
+}

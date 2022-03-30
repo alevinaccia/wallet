@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@binance/connector": "^1.8.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.2.1"
+  },
+  "scripts": {
+    "start": "nodemon main.js"
+  }
+}
