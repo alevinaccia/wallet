@@ -3,4 +3,4 @@
     <h2>{{this.title}}</h2>
     <ng-content></ng-content>
 </div>
-<div class="modal-overlay" #overlay></div>
+<div class="modal-overlay" #overlay (click)="toggleModal()"></div>

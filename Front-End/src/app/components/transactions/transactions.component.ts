@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
 import { ModalComponent } from '../modal/modal.component';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { Account, Transaction } from 'src/app/structs';
@@ -16,7 +16,7 @@ export class TransactionsComponent implements OnInit {
   
   transactions: Transaction[] = [];
   accounts: Account[] = [];
-  value?:number;
+  value!:number;
   transactionType?:string = 'Income';
   account: string = 'none';
   message ?: string;
@@ -25,7 +25,7 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.transactionService.getTransactions().subscribe((transactions) => this.transactions = transactions);
-    this.accountService.getAccounts().subscribe(accounts => this.accounts = accounts);
+    this.accountService.accounts.subscribe(acc => this.accounts = acc);
   }
 
   ngAfterViewInit(){
@@ -47,19 +47,26 @@ export class TransactionsComponent implements OnInit {
   }
 
   addTransaction(){
-    console.log(this.account);
-    
+    //TODO: check if the transaction was added succesfully
     let newTransaction : Transaction = {
       'msg' : this.message , 
-      'value' : this.value,
+      'value' : this.transactionType == "Income" ?  this.value : -this.value,
       'account' : this.account,
       'type' : this.transactionType
     }
 
-    this.transactionService.addTransaction(newTransaction).subscribe((transaction) => this.transactions.push(transaction));
-    console.log(this.transactions);
+    this.transactionService.addTransaction(newTransaction).subscribe((transaction) => {
+      this.transactions.push(transaction);
+    });
     
+    this.accountService.getAccounts();
     this.toggleTransactionModal();
+  }
+
+  removeTransaction(id : any){ //FIXME: also this sould be string
+    const indexToRemove = this.transactions.findIndex((t) => t._id == id);
+    this.transactions.splice(indexToRemove, 1);
+    this.accountService.getAccounts();
   }
 
   moveAddBTN(){

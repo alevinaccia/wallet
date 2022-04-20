@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, ViewChild} from '@angular/core';
 import { Account } from 'src/app/structs';
 
 import { AccountService } from 'src/app/services/account.service';
@@ -11,7 +11,7 @@ import { ModalComponent } from '../modal/modal.component';
   styleUrls: ['./accountlist.component.css']
 })
 export class AccountlistComponent implements OnInit {
-  @ViewChild(ModalComponent) child?: ModalComponent
+  @ViewChild(ModalComponent) child?: ModalComponent;
 
   accounts: Account[] = [];
   balance: Account = {
@@ -37,10 +37,11 @@ export class AccountlistComponent implements OnInit {
   constructor(private accountService: AccountService) { }
   
   ngOnInit(): void {
-    this.accountService.getAccounts().subscribe((accounts) => {
-      this.accounts = accounts;
-      this.updateOverall();
+    this.accountService.accounts.subscribe(acc => {
+      this.accounts = acc;
+      this.updateOverall()
     });
+    this.accountService.getAccounts();
   }
 
   toggle(){
@@ -76,7 +77,7 @@ export class AccountlistComponent implements OnInit {
   }
 
   updateForm(value:string){
-    //Updates according to the selected connection
+    //TODO:Updates according to the selected connection
   }
 
 }

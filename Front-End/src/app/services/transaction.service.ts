@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Transaction } from '../structs';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -20,8 +19,8 @@ export class TransactionService {
     return this.http.get<Transaction[]>(this.apiUrl + '/transactions');
   }
 
-  deleteTransaction(id : any){ //This shouldn't be 'any'
-    return this.http.delete(this.apiUrl + '/transactions', { //Breakpoint, won't call the .delete function
+  deleteTransaction(id : string) { //This shouldn't be 'any'
+    return this.http.delete(this.apiUrl + '/transactions', {
       headers : {
         '_id' : id
       }

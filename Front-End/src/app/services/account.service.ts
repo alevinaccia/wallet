@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Observable } from 'rxjs';
 import { Account } from '../structs';
+import { BehaviorSubject } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -15,11 +16,13 @@ const httpOptions = {
 
 export class AccountService {
   private apiUrl = 'http://localhost:3000';
+  private accountsSource = new BehaviorSubject<Account[]>([]);
+  accounts = this.accountsSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  getAccounts(): Observable<Account[]> {
-    return this.http.get<Account[]>(this.apiUrl + '/accounts')
+  getAccounts(): void {
+    this.http.get<Account[]>(this.apiUrl + '/accounts').subscribe(acc => this.accountsSource.next(acc));
   }
 
   addAccount(account: Account) {
