@@ -7,14 +7,15 @@ export interface Account{
         'name' : string,
         'apiKey'?: string,
         'apiSecret'?: string,
-        'handler'?: any,
+        'lastUpdate'?: string,
     };
 }
 
 export interface Transaction{
     msg?: string,
     type?: string,
-    value?: number,
+    value: number,
     account?: string,
-    _id? : string
+    _id ?: string,
+    date : string
 }

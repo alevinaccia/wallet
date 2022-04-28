@@ -1,5 +1,5 @@
 <section class="container">
-    <app-transaction *ngFor="let transaction of transactions" [transaction]="transaction" (emitRemoveTransaction)="removeTransaction(transaction._id)"></app-transaction>
+    <app-transaction *ngFor="let transaction of transactions" [transaction]="transaction"></app-transaction>
     <button class="transaction-button-center" (click)="toggleTransactionModal()" #addBTN>Add Transaction</button>
 </section>
 
@@ -22,7 +22,9 @@
             <div>
                 <input type="text" placeholder="Message" name="message" [(ngModel)]="message">
             </div>
-
+            <div>
+                <input type="date" name="date" [(ngModel)]="date">
+            </div>
             <input type="submit" value="Add Transaction!" class="add-transaction-btn">
         </div>
         <div class="expense"></div>

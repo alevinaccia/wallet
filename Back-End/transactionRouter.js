@@ -11,7 +11,8 @@ router.post('/', async (req, res) => {
             msg: req.body.msg,
             value: req.body.value,
             type: req.body.type,
-            account: req.body.account
+            account: req.body.account,
+            date : req.body.date
         })
         await transaction.save();
         await updateAccount(transaction, 'add');
@@ -27,9 +28,10 @@ router.get('/', async (req, res) => {
 })
 
 router.delete('/', async (req, res) => {
-    const transaction = await Transaction.findByIdAndDelete(req.headers._id);
-    await updateAccount(transaction, 'delete');
-    res.send(transaction._id);
+    const transactionToDelete = await Transaction.findByIdAndDelete(req.headers._id);
+    await updateAccount(transactionToDelete, 'delete').then(() => {
+        res.send(transactionToDelete._id);    
+    });
 })
 
 const updateAccount = async (transaction, operation) => {

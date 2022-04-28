@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { Account } from 'src/app/structs';
 
 import { AccountService } from 'src/app/services/account.service';
@@ -39,7 +39,7 @@ export class AccountlistComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.accounts.subscribe(acc => {
       this.accounts = acc;
-      this.updateOverall()
+      this.updateOverall();
     });
     this.accountService.getAccounts();
   }
@@ -66,6 +66,7 @@ export class AccountlistComponent implements OnInit {
         'name' : this.connection,
         'apiKey' : this.apiKey,
         'apiSecret' : this.apiSecret,
+        'lastUpdate' : ''
       }
     }
 

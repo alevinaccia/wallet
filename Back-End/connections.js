@@ -2,7 +2,7 @@ const { Spot } = require('@binance/connector')
 
 class ConnectionHandler{
     constructor(apiKey, apiSecret){
-        this.client = new Spot(apiKey, apiSecret)
+        this.client = new Spot(apiKey, apiSecret); //just for binance
     }
 
     getBalance = async (days) => {

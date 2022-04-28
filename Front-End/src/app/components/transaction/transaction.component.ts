@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Transaction } from 'src/app/structs';
 import { TransactionService } from 'src/app/services/transaction.service';
 
@@ -9,8 +9,6 @@ import { TransactionService } from 'src/app/services/transaction.service';
 })
 export class TransactionComponent implements OnInit {
   @Input() transaction!:Transaction
-  @Output() emitRemoveTransaction : EventEmitter<any> = new EventEmitter(); //FIX type should be string
-  
 
   constructor(private transactionService : TransactionService) { }
 
@@ -19,9 +17,7 @@ export class TransactionComponent implements OnInit {
   }
 
   deleteTransaction(transaction : any){
-    this.transactionService.deleteTransaction(transaction._id).subscribe(id => {
-      this.emitRemoveTransaction.emit(id);
-    });
+  	this.transactionService.deleteTransaction(transaction._id);
   }
 
 }

@@ -9,3 +9,16 @@
     display: flex;
     justify-content: space-between;
 }
+
+.container{
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    overflow-y: scroll;
+}
+
+canvas{
+    top: 0px;
+}

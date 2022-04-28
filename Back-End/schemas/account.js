@@ -8,8 +8,4 @@ const account = new mongoose.Schema({
     connection : Object
 })
 
-account.methods.getBalance = (ee) => {
-    console.log(ee)
-}
-
 module.exports = mongoose.model('account', account)

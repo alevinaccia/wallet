@@ -3,3 +3,11 @@
  -Transactions section is now updated live when a transaction is removed
  -Accounts balance is live updated too
  -Linked the transactions list and accounts
+
+# 28/04/2022
+ -Transaction service now shared data with an observable
+ -Account modal overall
+    -"local" transactions shown
+    -chart implementation started
+ -Connection-based accounts are updated every 30 minutes
+ 

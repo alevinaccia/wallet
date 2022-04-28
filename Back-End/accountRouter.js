@@ -3,10 +3,11 @@ const Account = require('./schemas/account')
 const ConnectionHandler = require('./connections')
 
 const router = express.Router()
+const updatesDelay = 1.8*10^6; //30 minutes in milliseconds
 
 //TODO fix this spaghetti too
 router.get('/', async (req, res) => {
-    res.send(await  updateAccounts());
+    res.send(await updateAccounts());
 })
 
 router.post('/', async (req, res) => {
@@ -21,8 +22,8 @@ router.post('/', async (req, res) => {
         })
         
         if(account.connection.name != 'none'){
-            connectionHandler = new ConnectionHandler(account.connection.apiKey, account.connection.apiSecret)
-            account.value = await connectionHandler.getBalance()
+            connectionHandler = new ConnectionHandler(account.connection.apiKey, account.connection.apiSecret);
+            account.value = await connectionHandler.getBalance().then(() => account.connection.lastUpdate == new Date.now());
         }
         await account.save()
         res.send(account)
@@ -33,14 +34,16 @@ router.post('/', async (req, res) => {
 })
 
 const updateAccounts = async () => {
-    const accounts = await Account.find()
+    const accounts = await Account.find();
     accounts.forEach(async (account) => {
         if(account.connection.name != 'none'){
-            let connectionHandler = new ConnectionHandler(account.connection.apiKey, account.connection.apiSecret)
-            await Account.findByIdAndUpdate(account._id, {'value' : await connectionHandler.getBalance()})
+            if(new Date().valueOf() - account.connection.lastUpdate > updatesDelay) {
+                let connectionHandler = new ConnectionHandler(account.connection.apiKey, account.connection.apiSecret);
+                await Account.findByIdAndUpdate(account._id, {'value' : await connectionHandler.getBalance(), 'connection' : {'lastUpadate' : new Date().valueOf()}});
+            }
         }
     })
-    return accounts
+    return accounts;
 }
 
-module.exports = router
+module.exports = router;

@@ -1,4 +1,11 @@
-<div class="wrapper">
+<div class="wrapper" (click)="this.toggle()">
     <p>{{account.name}}</p>
     <p>{{account.value}}€</p>
 </div>
+
+<app-modal title={{account.name}}>
+    <div class="container">
+        <canvas #accountChart width="200" height="80"></canvas>
+        <app-transaction *ngFor="let transaction of localTransactions" [transaction]=transaction></app-transaction>
+    </div>
+</app-modal>
