@@ -9,6 +9,7 @@ export interface Account{
         'apiSecret'?: string,
         'lastUpdate'?: string,
     };
+    _id?: string;
 }
 
 export interface Transaction{

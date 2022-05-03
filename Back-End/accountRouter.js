@@ -3,11 +3,12 @@ const Account = require('./schemas/account')
 const ConnectionHandler = require('./connections')
 
 const router = express.Router()
-const updatesDelay = 1.8*10^6; //30 minutes in milliseconds
+const updatesDelay = 1.8 * Math.pow(10,6); //30 minutes in milliseconds
+
 
 //TODO fix this spaghetti too
 router.get('/', async (req, res) => {
-    res.send(await updateAccounts());
+    res.send(await updateAccounts().catch(err => console.log("ACC", err)));
 })
 
 router.post('/', async (req, res) => {
@@ -18,10 +19,10 @@ router.post('/', async (req, res) => {
             value: req.body.value,
             stats: req.body.stats,
             type: req.body.type,
-            connection : req.body.connection
+            connection: req.body.connection
         })
-        
-        if(account.connection.name != 'none'){
+
+        if (account.connection.name != 'none') {
             connectionHandler = new ConnectionHandler(account.connection.apiKey, account.connection.apiSecret);
             account.value = await connectionHandler.getBalance().then(() => account.connection.lastUpdate == new Date.now());
         }
@@ -33,13 +34,21 @@ router.post('/', async (req, res) => {
     }
 })
 
+router.put('/', async (req, res) => {
+   res.send(await Account.findByIdAndUpdate(req.body._id, { name : req.body.newName }, {new : true}));
+})
+
 const updateAccounts = async () => {
     const accounts = await Account.find();
     accounts.forEach(async (account) => {
-        if(account.connection.name != 'none'){
-            if(new Date().valueOf() - account.connection.lastUpdate > updatesDelay) {
+        if (account.connection.name != 'none') {
+            if (new Date().valueOf() - account.connection.lastUpdate > updatesDelay) {
                 let connectionHandler = new ConnectionHandler(account.connection.apiKey, account.connection.apiSecret);
-                await Account.findByIdAndUpdate(account._id, {'value' : await connectionHandler.getBalance(), 'connection' : {'lastUpadate' : new Date().valueOf()}});
+                await Account.findByIdAndUpdate(account._id, { $set : { 
+                    'connection.lastUpdate' : new Date().valueOf(),
+                    'connection.name' : "Binance",
+                    value : await connectionHandler.getBalance()
+                }})
             }
         }
     })

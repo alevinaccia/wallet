@@ -8,7 +8,7 @@ import { TransactionService } from 'src/app/services/transaction.service';
   styleUrls: ['./transaction.component.css']
 })
 export class TransactionComponent implements OnInit {
-  @Input() transaction!:Transaction
+  @Input() transaction!:Transaction;
 
   constructor(private transactionService : TransactionService) { }
 
@@ -16,7 +16,11 @@ export class TransactionComponent implements OnInit {
     
   }
 
-  deleteTransaction(transaction : any){
+  updateTransaction(transaction : Transaction){
+    
+  }
+
+  deleteTransaction(transaction : any){ //FIXME type should be transaction, not any
   	this.transactionService.deleteTransaction(transaction._id);
   }
 

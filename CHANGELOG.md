@@ -10,4 +10,7 @@
     -"local" transactions shown
     -chart implementation started
  -Connection-based accounts are updated every 30 minutes
+ -User can edit the name of the account (double click in the title in the overview modal)
+ -addtransaction btn now moves accordingly to the state of the app
+  
  

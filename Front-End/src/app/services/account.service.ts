@@ -4,12 +4,6 @@ import { Observable } from 'rxjs';
 import { Account } from '../structs';
 import { BehaviorSubject } from 'rxjs';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json',
-  })
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -25,8 +19,20 @@ export class AccountService {
     this.http.get<Account[]>(this.apiUrl + '/accounts').subscribe(acc => this.accountsSource.next(acc));
   }
 
+  updateName(_id : Object, newName : string): void{
+    this.http.put<Account>(this.apiUrl + '/accounts', {newName : newName, _id : _id}).subscribe(acc => {
+      let arr = this.accountsSource.getValue();
+      arr.map(acc => {
+        if(acc._id == _id) acc.name = newName;
+      })
+      this.accountsSource.next(arr);
+    });
+  }
+
   addAccount(account: Account) {
-    return this.http.post<Account>(this.apiUrl + '/accounts', account, httpOptions)
+    this.http.post<Account>(this.apiUrl + '/accounts', account).subscribe(acc => {
+      this.accountsSource.next(this.accountsSource.getValue().concat(acc));
+    })
   }
 
 }

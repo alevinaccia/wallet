@@ -25,9 +25,14 @@ export class TransactionsComponent implements OnInit {
   constructor(private transactionService: TransactionService, private accountService: AccountService) { }
 
   ngOnInit(): void {
+    
+  }
+
+  ngAfterViewInit() : void {
     this.transactionService.transactions.subscribe(t => {
       this.transactions = t;
       this.accountService.getAccounts();
+      this.moveAddBTN();
     })
     this.transactionService.getTransactions();
     this.accountService.accounts.subscribe(acc => this.accounts = acc);
@@ -61,8 +66,12 @@ export class TransactionsComponent implements OnInit {
   }
 
   moveAddBTN() {
-    this.addBTN.nativeElement.classList.toggle("transaction-button-center");
-    this.addBTN.nativeElement.classList.toggle("transaction-button-bottom");
+    if(this.transactions.length == 0){
+      this.addBTN.nativeElement.classList = ['transaction-button-center'];
+    }else{
+      this.addBTN.nativeElement.classList = ['transaction-button-bottom'];
+    }
+    
   }
 
   toggleTransactionModal() {

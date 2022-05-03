@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Account, Transaction } from 'src/app/structs';
 import { ModalComponent } from '../modal/modal.component';
 import { TransactionService } from 'src/app/services/transaction.service';
+import { AccountService } from 'src/app/services/account.service';
 import { Chart } from 'chart.js';
 
 @Component({
@@ -11,25 +12,27 @@ import { Chart } from 'chart.js';
 })
 
 export class AccountComponent implements OnInit {
-  @Input() account!: Account;
+  @Input() account!: any; //FIXME this shoudln't be any
   @ViewChild(ModalComponent) modal?: ModalComponent;
   @ViewChild("accountChart") contex!: ElementRef;
 
   localTransactions: Transaction[] = [];
 
-  constructor(private transactionService: TransactionService) { }
+  constructor(private transactionService: TransactionService, private accountService: AccountService) { }
 
   ngOnInit(): void {
-    /*this.transactionService.transactions.subscribe(transactions => {
+    this.transactionService.transactions.subscribe(transactions => {
       this.localTransactions = transactions.filter(t => t.account == this.account.name);
-    })*/
-    this.localTransactions = this.transactionService.getTransactionstemp();
+    })
   }
 
   ngAfterViewInit(): void {
     this.drawChart(this.generateData());
   }
 
+  updateAccountName(newName: string) {
+    this.accountService.updateName(this.account._id, newName);
+  }
 
   generateData() {
     const xdata: string[] = []
@@ -41,20 +44,20 @@ export class AccountComponent implements OnInit {
     return { xdata, ydata }
   }
 
-  drawChart(data: any) {
-    const myChart = new Chart(this.contex.nativeElement, {
+  drawChart(data : any) {
+    new Chart(this.contex.nativeElement, {
       type: 'line',
       data: {
-          labels: data.xdata,
-          datasets: [{
-              label: '# of Votes',
-              data: data.ydata,
-              backgroundColor: 'rgba(255, 99, 132, 0.7)',
-              borderColor: 'rgba(255, 99, 132, 1)',
-              borderWidth: 1
-          }]
+        labels: data.xdata,
+        datasets: [{
+          label: '# of Votes',
+          data: data.ydata,
+          backgroundColor: 'rgba(255, 99, 132, 0.7)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }]
       },
-  });
+    });
   }
 
   toggle() {

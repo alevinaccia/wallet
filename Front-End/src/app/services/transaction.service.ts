@@ -26,10 +26,6 @@ export class TransactionService {
     });
   }
 
-  getTransactionstemp(){
-    return this.transactionsSource.getValue();
-  }
-
   deleteTransaction(id : string) { 
     this.http.delete(this.apiUrl + '/transactions', {
       headers : {

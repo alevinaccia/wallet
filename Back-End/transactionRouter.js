@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-    res.send(await Transaction.find());
+    res.send(await Transaction.find().catch(err => console.log("TRA", err)));
 })
 
 router.delete('/', async (req, res) => {

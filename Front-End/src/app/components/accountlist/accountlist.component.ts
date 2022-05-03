@@ -70,10 +70,7 @@ export class AccountlistComponent implements OnInit {
       }
     }
 
-    this.accountService.addAccount(newAccount).subscribe(account => {
-      this.accounts.push(account);
-      this.updateOverall();
-    })
+    this.accountService.addAccount(newAccount);
     // if Validate:
   }
 

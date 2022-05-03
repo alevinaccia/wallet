@@ -1,6 +1,6 @@
 <section class="container">
     <app-transaction *ngFor="let transaction of transactions" [transaction]="transaction"></app-transaction>
-    <button class="transaction-button-center" (click)="toggleTransactionModal()" #addBTN>Add Transaction</button>
+    <button class="transaction-button-bottom" (click)="toggleTransactionModal()" #addBTN>Add Transaction</button>
 </section>
 
 <app-modal #myname title="Add transaction">
