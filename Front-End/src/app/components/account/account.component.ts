@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { Account, Transaction } from 'src/app/structs';
+import { Transaction } from 'src/app/structs';
 import { ModalComponent } from '../modal/modal.component';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { AccountService } from 'src/app/services/account.service';
@@ -15,6 +15,7 @@ export class AccountComponent implements OnInit {
   @Input() account!: any; //FIXME this shoudln't be any
   @ViewChild(ModalComponent) modal?: ModalComponent;
   @ViewChild("accountChart") contex!: ElementRef;
+  @ViewChild("balanceElement") balanceElement!: ElementRef;
 
   localTransactions: Transaction[] = [];
 
@@ -32,6 +33,19 @@ export class AccountComponent implements OnInit {
 
   updateAccountName(newName: string) {
     this.accountService.updateName(this.account._id, newName);
+  }
+
+  updateAccountValue(){
+    let input = document.createElement('input');
+    input.type = "number"
+    input.value = this.account.value;
+    this.balanceElement.nativeElement.innerHTML = "";
+    input.onblur = () => {
+      this.balanceElement.nativeElement.innerHTML = `${input.value}€`;
+      this.accountService.updateValue(this.account._id, Number(input.value));
+    };
+		this.balanceElement.nativeElement.appendChild(input);
+    input.focus();
   }
 
   generateData() {
@@ -54,7 +68,7 @@ export class AccountComponent implements OnInit {
           data: data.ydata,
           backgroundColor: 'rgba(255, 99, 132, 0.7)',
           borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1
+          borderWidth: 1,
         }]
       },
     });

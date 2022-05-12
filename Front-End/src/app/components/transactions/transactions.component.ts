@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ModalComponent } from '../modal/modal.component';
 import { TransactionService } from 'src/app/services/transaction.service';
-import { Account, Transaction } from 'src/app/structs';
+import { Account, Transaction, Category } from 'src/app/structs';
 import { AccountService } from 'src/app/services/account.service';
+import { CategoryService } from 'src/app/services/category.service';
 
 @Component({
   selector: 'app-transactions',
@@ -16,13 +17,15 @@ export class TransactionsComponent implements OnInit {
 
   transactions: Transaction[] = [];
   accounts: Account[] = [];
+  categories: Category[] = [];
   value!: number;
   transactionType: string = 'Income';
   account: string = 'none';
   message !: string;
   date: string = new Date().toISOString().slice(0, 10);
+  category: string = 'none';
 
-  constructor(private transactionService: TransactionService, private accountService: AccountService) { }
+  constructor(private transactionService: TransactionService, private accountService: AccountService, private categoryService: CategoryService) { }
 
   ngOnInit(): void {
     
@@ -36,6 +39,8 @@ export class TransactionsComponent implements OnInit {
     })
     this.transactionService.getTransactions();
     this.accountService.accounts.subscribe(acc => this.accounts = acc);
+    this.categoryService.categories.subscribe(cat => this.categories = cat);
+    this.categoryService.getCategories();
   }
 
   updateSelection(event: Event) { //TODO refactor this spaghetti code
@@ -57,7 +62,8 @@ export class TransactionsComponent implements OnInit {
       'value': this.transactionType == "Income" ? this.value : -this.value,
       'account': this.account,
       'type': this.transactionType,
-      'date': this.date
+      'date': this.date,
+      category : this.category
     }
 
     this.transactionService.addTransaction(newTransaction)

@@ -26,17 +26,21 @@ router.post('/', async (req, res) => {
             connectionHandler = new ConnectionHandler(account.connection.apiKey, account.connection.apiSecret);
             account.value = await connectionHandler.getBalance().then(() => account.connection.lastUpdate == new Date.now());
         }
-        await account.save()
-        res.send(account)
+        await account.save();
+        res.send(account);
     } catch (error) {
         res.send({ 'mess': 'error' })
         res.statusCode = 404
     }
 })
 
-router.put('/', async (req, res) => {
+router.put('/name', async (req, res) => {
    res.send(await Account.findByIdAndUpdate(req.body._id, { name : req.body.newName }, {new : true}));
 })
+
+router.put('/value', async (req, res) => {
+    res.send(await Account.findByIdAndUpdate(req.body._id, { value : req.body.newValue }, {new : true}));
+ })
 
 const updateAccounts = async () => {
     const accounts = await Account.find();

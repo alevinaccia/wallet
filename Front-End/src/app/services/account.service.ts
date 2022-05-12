@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http'
 import { Account } from '../structs';
 import { BehaviorSubject } from 'rxjs';
 
@@ -20,13 +19,23 @@ export class AccountService {
   }
 
   updateName(_id : Object, newName : string): void{
-    this.http.put<Account>(this.apiUrl + '/accounts', {newName : newName, _id : _id}).subscribe(acc => {
+    this.http.put<Account>(this.apiUrl + '/accounts/name', {newName : newName, _id : _id}).subscribe(acc => {
       let arr = this.accountsSource.getValue();
       arr.map(acc => {
         if(acc._id == _id) acc.name = newName;
       })
       this.accountsSource.next(arr);
     });
+  }
+
+  updateValue(_id : Object, newValue : number) : void{
+    this.http.put<Account>(this.apiUrl + '/accounts/value', {newValue : newValue, _id : _id}).subscribe( acc => {
+      let arr = this.accountsSource.getValue();
+      arr.map(acc => {
+        if(acc._id == _id) acc.value = newValue;
+      })
+      this.accountsSource.next(arr);
+    })
   }
 
   addAccount(account: Account) {

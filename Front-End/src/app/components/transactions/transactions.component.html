@@ -23,6 +23,12 @@
                 <input type="text" placeholder="Message" name="message" [(ngModel)]="message">
             </div>
             <div>
+                <select name="category" [(ngModel)]="category">
+                    <option [ngValue]="null">Category</option>
+                    <option *ngFor="let category of categories">{{ category.name }}</option>
+                </select>
+            </div>
+            <div>
                 <input type="date" name="date" [(ngModel)]="date">
             </div>
             <input type="submit" value="Add Transaction!" class="add-transaction-btn">

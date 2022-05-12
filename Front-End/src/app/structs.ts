@@ -18,5 +18,10 @@ export interface Transaction{
     value: number,
     account?: string,
     _id ?: string,
-    date : string
+    date : string,
+    category: string
+}
+
+export interface Category{
+    name: string,
 }

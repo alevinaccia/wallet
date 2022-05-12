@@ -1,6 +1,6 @@
 <div class="transaction-wrapper">
     <span>€{{ transaction.value }}</span>
-    <span></span>
+    <span>{{ transaction.category }}</span>
     <span>{{ transaction.msg }}
         <button (click)="this.updateTransaction(transaction)"> Edit </button> <!--Implement edit--> <!--TODO CONTINUE-->
         <button (click)="this.deleteTransaction(transaction)"> Del </button>

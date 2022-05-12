@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Account } from 'src/app/structs';
 
 import { AccountService } from 'src/app/services/account.service';
@@ -15,27 +15,38 @@ export class AccountlistComponent implements OnInit {
 
   accounts: Account[] = [];
   balance: Account = {
-    'name' : 'Overall',
-    'value' : 0,
-    'stats' : true,
-    'type' : '',
-    'connection' : {
-      'name' : 'none'
-    } 
+    'name': 'Overall',
+    'value': 0,
+    'stats': true,
+    'type': '',
+    'connection': {
+      'name': 'none'
+    }
   }
   options = [
-    {'name' : 'Binance'}
+    { 'name': 'Binance' }
+  ]
+  types = [
+    {
+      'name' : 'Cash'
+    },
+    {
+      'name' : 'Investments'
+    },
+    {
+      'name' : 'Cards'
+    }
   ]
   accountName!: string;
   accountValue!: number;
-  accountType!: string;
+  accountType: string = 'Cash';
   accountStats: boolean = false;
   connection: string = 'none';
   apiKey: string = '';
   apiSecret: string = '';
 
   constructor(private accountService: AccountService) { }
-  
+
   ngOnInit(): void {
     this.accountService.accounts.subscribe(acc => {
       this.accounts = acc;
@@ -44,37 +55,40 @@ export class AccountlistComponent implements OnInit {
     this.accountService.getAccounts();
   }
 
-  toggle(){
+  toggle() {
     this.child?.toggleModal()
   }
 
-  updateOverall(){
+  updateOverall() {
     this.balance.value = 0;
     this.accounts.forEach((acc) => {
+      if (acc.stats)
         this.balance.value += acc.value;
+        this.balance.value = Number(this.balance.value.toFixed(2));
     })
   }
 
-  onSubmit(){
+  onSubmit() {
     //Create the account to add
-    let newAccount : Account = {
-      'name' : this.accountName,
-      'stats' : this.accountStats,
-      'type' : this.accountType,
-      'value' : this.accountValue,
-      'connection' : {
-        'name' : this.connection,
-        'apiKey' : this.apiKey,
-        'apiSecret' : this.apiSecret,
-        'lastUpdate' : ''
+    let newAccount: Account = {
+      'name': this.accountName,
+      'stats': this.accountStats,
+      'type': this.accountType,
+      'value': this.accountValue,
+      'connection': {
+        'name': this.connection,
+        'apiKey': this.apiKey,
+        'apiSecret': this.apiSecret,
+        'lastUpdate': ''
       }
     }
 
     this.accountService.addAccount(newAccount);
+    this.toggle();
     // if Validate:
   }
 
-  updateForm(value:string){
+  updateForm(value: string) {
     //TODO:Updates according to the selected connection
   }
 

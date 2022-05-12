@@ -17,9 +17,7 @@
         <section>
             <input type="number" placeholder="Starting value" name="accountValue" [(ngModel)]="accountValue">
             <select name="accountType" [(ngModel)]="accountType" >
-                <option value="Cash">Cash</option>
-                <option value="Cards">Cards</option>
-                <option value="Investments">Investments</option>
+                <option *ngFor="let type of types" [ngValue]="type.name">{{ type.name }}</option>
             </select>
             <label for="checkbok">Stats</label>
             <input type="checkbox" name="checkbox" name="accountStats" [(ngModel)]="accountStats">

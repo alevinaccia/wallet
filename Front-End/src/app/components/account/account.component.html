@@ -5,6 +5,7 @@
 
 <app-modal title={{account.name}} (titleChange)="updateAccountName($event)">
     <div class="container">
+        <div class="balance" (dblclick)="updateAccountValue()" #balanceElement>{{account.value}}€</div>
         <canvas #accountChart width="200" height="80"></canvas>
         <app-transaction *ngFor="let transaction of localTransactions" [transaction]=transaction></app-transaction>
     </div>

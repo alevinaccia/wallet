@@ -1,1 +1,9 @@
-<p>stats works!</p>
+<div class="wrapper">
+    <select [(ngModel)]="timeFrame" (change)="this.update()" class="timeSelector">
+        <option *ngFor="let option of options" [ngValue]="option.name">{{ option.name }}</option>
+    </select> 
+    <canvas #expensesPie width="200" height="80"></canvas>
+    <label>Expenses</label>
+    <canvas #incomePie width="200" height="80"></canvas>
+    <label>Income</label>
+</div>

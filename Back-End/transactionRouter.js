@@ -1,7 +1,7 @@
 const express = require('express');
 const Transaction = require('./schemas/transaction');
 const Account = require('./schemas/account');
-const account = require('./schemas/account');
+
 
 const router = express.Router()
 
@@ -12,7 +12,8 @@ router.post('/', async (req, res) => {
             value: req.body.value,
             type: req.body.type,
             account: req.body.account,
-            date : req.body.date
+            date : req.body.date,
+            category : req.body.category
         })
         await transaction.save();
         await updateAccount(transaction, 'add');
@@ -36,11 +37,11 @@ router.delete('/', async (req, res) => {
 
 const updateAccount = async (transaction, operation) => {
     if (operation == 'add') {
-        let currentAccount = await account.findOne({ name: transaction.account });
-        await account.findOneAndUpdate({ name: transaction.account }, { value: currentAccount.value + transaction.value });
+        let currentAccount = await Account.findOne({ name: transaction.account });
+        await Account.findOneAndUpdate({ name: transaction.account }, { value: currentAccount.value + transaction.value });
     } else if (operation == 'delete') {
-        let currentAccount = await account.findOne({ name: transaction.account });
-        await account.findOneAndUpdate({ name: transaction.account }, { value: currentAccount.value - transaction.value });
+        let currentAccount = await Account.findOne({ name: transaction.account });
+        await Account.findOneAndUpdate({ name: transaction.account }, { value: currentAccount.value - transaction.value });
     }
 }
 
