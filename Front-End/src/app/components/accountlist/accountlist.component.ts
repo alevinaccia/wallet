@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Query, QueryList, ViewChild } from '@angular/core';
 import { Account } from 'src/app/structs';
 
 import { AccountService } from 'src/app/services/account.service';
+import { AccountComponent } from '../account/account.component';
 import { ModalComponent } from '../modal/modal.component';
 
 

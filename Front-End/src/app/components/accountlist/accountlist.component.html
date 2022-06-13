@@ -1,6 +1,6 @@
 <div class="accounts">
     <app-account [account]="balance"></app-account>
-    <app-account *ngFor="let account of accounts" [account]="account"></app-account>
+    <app-account #accounts *ngFor="let account of accounts" [account]="account" ></app-account>
     <div class="add-account-BTN disable-select" (click)="toggle()">+</div>
     <!--Change to a fontawesome icon-->
 </div>

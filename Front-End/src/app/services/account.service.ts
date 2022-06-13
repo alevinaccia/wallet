@@ -28,8 +28,8 @@ export class AccountService {
     });
   }
 
-  updateValue(_id : Object, newValue : number) : void{
-    this.http.put<Account>(this.apiUrl + '/accounts/value', {newValue : newValue, _id : _id}).subscribe( acc => {
+  async updateValue(_id : Object, newValue : number) : void{
+      this.http.put<Account>(this.apiUrl + '/accounts/value', {newValue : newValue, _id : _id}).subscribe( acc => {
       let arr = this.accountsSource.getValue();
       arr.map(acc => {
         if(acc._id == _id) acc.value = newValue;

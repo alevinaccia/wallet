@@ -43,6 +43,7 @@ export class AccountComponent implements OnInit {
     input.onblur = () => {
       this.balanceElement.nativeElement.innerHTML = `${input.value}€`;
       this.accountService.updateValue(this.account._id, Number(input.value));
+      this.drawChart(this.generateData());
     };
 		this.balanceElement.nativeElement.appendChild(input);
     input.focus();
@@ -59,19 +60,19 @@ export class AccountComponent implements OnInit {
   }
 
   drawChart(data : any) {
-    new Chart(this.contex.nativeElement, {
-      type: 'line',
-      data: {
-        labels: data.xdata,
-        datasets: [{
-          label: '# of Votes',
-          data: data.ydata,
-          backgroundColor: 'rgba(255, 99, 132, 0.7)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1,
-        }]
-      },
-    });
+      new Chart(this.contex.nativeElement, {
+        type: 'line',
+        data: {
+          labels: data.xdata,
+          datasets: [{
+            label: '# of Votes',
+            data: data.ydata,
+            backgroundColor: 'rgba(255, 99, 132, 0.7)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+          }]
+        },
+      });
   }
 
   toggle() {
