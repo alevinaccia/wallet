@@ -35,6 +35,18 @@ router.delete('/', async (req, res) => {
     });
 })
 
+router.put('/msg', async (req, res) => {
+    res.send(await Transaction.findByIdAndUpdate(req.body._id, { msg : req.body.newMsg }, {new : true}));
+ })
+
+router.put('/category', async (req, res) => {
+    res.send(await Transaction.findByIdAndUpdate(req.body._id, { category : req.body.newCat }, {new : true}));
+})
+
+router.put('/value', async (req, res) => {
+    res.send(await Transaction.findByIdAndUpdate(req.body._id, { value : req.body.newValue }, {new : true}));
+})
+
 const updateAccount = async (transaction, operation) => {
     if (operation == 'add') {
         let currentAccount = await Account.findOne({ name: transaction.account });

@@ -18,7 +18,7 @@ export class AccountService {
     this.http.get<Account[]>(this.apiUrl + '/accounts').subscribe(acc => this.accountsSource.next(acc));
   }
 
-  updateName(_id : Object, newName : string): void{
+  updateName(_id : String, newName : string): void{
     this.http.put<Account>(this.apiUrl + '/accounts/name', {newName : newName, _id : _id}).subscribe(acc => {
       let arr = this.accountsSource.getValue();
       arr.map(acc => {
@@ -28,7 +28,7 @@ export class AccountService {
     });
   }
 
-  async updateValue(_id : Object, newValue : number) : void{
+  updateValue(_id : String, newValue : number) : void{
       this.http.put<Account>(this.apiUrl + '/accounts/value', {newValue : newValue, _id : _id}).subscribe( acc => {
       let arr = this.accountsSource.getValue();
       arr.map(acc => {

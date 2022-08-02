@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { Transaction } from 'src/app/structs';
+import { Account, Transaction } from 'src/app/structs';
 import { ModalComponent } from '../modal/modal.component';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { AccountService } from 'src/app/services/account.service';
@@ -12,7 +12,7 @@ import { Chart } from 'chart.js';
 })
 
 export class AccountComponent implements OnInit {
-  @Input() account!: any; //FIXME this shoudln't be any
+  @Input() account!: Account;
   @ViewChild(ModalComponent) modal?: ModalComponent;
   @ViewChild("accountChart") contex!: ElementRef;
   @ViewChild("balanceElement") balanceElement!: ElementRef;
@@ -32,17 +32,19 @@ export class AccountComponent implements OnInit {
   }
 
   updateAccountName(newName: string) {
-    this.accountService.updateName(this.account._id, newName);
+    this.accountService.updateName(this.account._id || ' ', newName);
   }
 
   updateAccountValue(){
+    const OLD = this.account.value;
     let input = document.createElement('input');
     input.type = "number"
-    input.value = this.account.value;
+    input.value = String(this.account.value);
     this.balanceElement.nativeElement.innerHTML = "";
     input.onblur = () => {
       this.balanceElement.nativeElement.innerHTML = `${input.value}€`;
-      this.accountService.updateValue(this.account._id, Number(input.value));
+      if(OLD == Number(input.value)) return;
+      this.accountService.updateValue(this.account._id || ' ', Number(input.value));
       this.drawChart(this.generateData());
     };
 		this.balanceElement.nativeElement.appendChild(input);

@@ -26,6 +26,36 @@ export class TransactionService {
     });
   }
 
+  updateMsg(_id : string, newMsg : string): void{
+    this.http.put<Transaction>(this.apiUrl + '/transactions/msg', {newMsg : newMsg, _id : _id}).subscribe(tra => {
+      let arr = this.transactionsSource.getValue();
+      arr.map(tra => {
+        if(tra._id == _id) tra.msg = newMsg;
+      })
+      this.transactionsSource.next(arr);
+    });
+  }
+
+  updateCategory(_id : string, newCat : string){
+    this.http.put<Transaction>(this.apiUrl + '/transactions/category', {newCat : newCat, _id : _id}).subscribe(tra => {
+      let arr = this.transactionsSource.getValue();
+      arr.map(tra => {
+        if(tra._id == _id) tra.category = newCat;
+      })
+      this.transactionsSource.next(arr);
+    });
+  }
+
+  updateValue(_id : string, newValue : string){
+    this.http.put<Transaction>(this.apiUrl + '/transactions/value', {newValue : newValue, _id : _id}).subscribe(tra => {
+      let arr = this.transactionsSource.getValue();
+      arr.map(tra => {
+        if(tra._id == _id) tra.value = Number(newValue);
+      })
+      this.transactionsSource.next(arr);
+    });
+  }
+
   deleteTransaction(id : string) { 
     this.http.delete(this.apiUrl + '/transactions', {
       headers : {

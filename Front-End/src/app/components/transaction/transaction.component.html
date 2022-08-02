@@ -1,8 +1,8 @@
 <div class="transaction-wrapper">
-    <span>€{{ transaction.value }}</span>
-    <span>{{ transaction.category }}</span>
-    <span>{{ transaction.msg }}
-        <button (click)="this.updateTransaction(transaction)"> Edit </button> <!--Implement edit--> <!--TODO CONTINUE-->
-        <button (click)="this.deleteTransaction(transaction)"> Del </button>
+    <span (dblclick)="this.updateValue()" #valueElement>{{ transaction.value }}€</span>
+    <span (dblclick)="this.updateCategory()" #catElement >{{ transaction.category }} </span>
+    <span>
+        <span (dblclick)="this.updateMsg()" #msgElement>{{ transaction.msg }}</span>
+        <button (click)="this.deleteTransaction()"> Del </button>
     </span>
 </div>

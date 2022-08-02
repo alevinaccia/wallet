@@ -13,11 +13,11 @@ export interface Account{
 }
 
 export interface Transaction{
-    msg?: string,
-    type?: string,
+    msg: string,
+    type: string,
     value: number,
     account?: string,
-    _id ?: string,
+    _id ?: string, //QST this id is optional because it's added by the database once added
     date : string,
     category: string
 }
